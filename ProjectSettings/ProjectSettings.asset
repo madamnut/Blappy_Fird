@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 26
-  productGUID: 87770535021d13a48ab1284a2d62a08e
+  productGUID: 7f9de2350b57d624d8a4a37274aef802
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Blappy_Fird
+  productName: Sneka
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -630,14 +630,14 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Blappy_Fird
+  metroPackageName: Sneka
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Blappy_Fird
+  metroApplicationDescription: Sneka
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -706,10 +706,10 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 8644c66e-0124-440f-b634-2eb13569909e
+  cloudProjectId: f45df8ec-dd60-4afa-9769-5ca2d8c45295
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Blappy_Fird 2025-03-12_06-05-33
+  projectName: Sneka
   organizationId: davidydlee
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

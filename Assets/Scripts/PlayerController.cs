@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.IsGameRunning)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = Vector2.up * jumpForce;
@@ -39,5 +42,13 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.rotation = Quaternion.Euler(0, 0, angle);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Obstacle"))
+        {
+            GameManager.Instance.HandleCollision();
+        }
     }
 }

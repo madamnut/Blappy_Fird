@@ -16,8 +16,17 @@ public class GameOverManager : MonoBehaviour
         exitButton.onClick.AddListener(ExitGame);
     }
 
+    private void Update()
+    {
+        if (gameOverPanel.activeSelf && Input.GetKeyDown(KeyCode.R))
+        {
+            RestartGame();
+        }
+    }
+
     public void ShowGameOverScreen(int finalScore)
     {
+        ScoreManager.Instance.HideScoreUI();
         gameOverPanel.SetActive(true); // 게임 오버 화면 표시
         scoreText.text = "Score: " + finalScore.ToString(); // 최종 점수 표시
     }

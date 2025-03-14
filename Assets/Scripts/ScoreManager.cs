@@ -39,4 +39,12 @@ public class ScoreManager : MonoBehaviour
             scoreText.text = score.ToString();
         }
     }
+
+    public void HideScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.gameObject.SetActive(false);
+        }
+    }
 }

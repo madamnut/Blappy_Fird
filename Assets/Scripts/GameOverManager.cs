@@ -4,41 +4,44 @@ using UnityEngine.SceneManagement;
 
 public class GameOverManager : MonoBehaviour
 {
-    public GameObject gameOverPanel;  // 게임 오버 UI 패널
-    public Text scoreText;            // 최종 점수 텍스트
-    public Button retryButton;        // 다시 시작 버튼
-    public Button exitButton;         // 종료 버튼
+    public GameObject gameOverPanel;
+    public Text scoreText;
+    public Button retryButton;
+    public Button exitButton;
+
+    public AudioClip gameOverSound;  // 게임 오버 사운드 추가
+    private AudioSource audioSource;
 
     private void Start()
     {
-        gameOverPanel.SetActive(false); // 시작 시 비활성화
+        gameOverPanel.SetActive(false);
         retryButton.onClick.AddListener(RestartGame);
         exitButton.onClick.AddListener(ExitGame);
-    }
 
-    private void Update()
-    {
-        if (gameOverPanel.activeSelf && Input.GetKeyDown(KeyCode.R))
-        {
-            RestartGame();
-        }
+        // 오디오 소스 설정
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     public void ShowGameOverScreen(int finalScore)
     {
         ScoreManager.Instance.HideScoreUI();
-        gameOverPanel.SetActive(true); // 게임 오버 화면 표시
-        scoreText.text = "Score: " + finalScore.ToString(); // 최종 점수 표시
+        gameOverPanel.SetActive(true);
+        scoreText.text = "Score: " + finalScore.ToString();
+
+        // 게임 오버 사운드 재생
+        if (gameOverSound != null)
+            audioSource.PlayOneShot(gameOverSound);
     }
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 다시 로드
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ExitGame()
     {
-        Application.Quit(); // 게임 종료
-        Debug.Log("게임 종료! (에디터에서는 작동하지 않을 수 있음)"); // 에디터에서는 종료가 안되므로 디버그 출력
+        Application.Quit();
+        Debug.Log("게임 종료! (에디터에서는 작동하지 않을 수 있음)");
     }
 }

@@ -10,8 +10,26 @@ public class LobbyManager : MonoBehaviour
     public GameObject title;        // 커졌다 돌아오는 타이틀
     public string gameSceneName;    // 이동할 게임 씬 이름 (유니티 인스펙터에서 설정)
 
+    public AudioClip bgmClip;       // 배경 음악
+    public AudioClip pressKeySound; // Press Any Key 효과음
+
+    private AudioSource bgmSource;  // 내부에서 생성하는 BGM 오디오 소스
+    private AudioSource sfxSource;  // 내부에서 생성하는 SFX 오디오 소스
+
     private void Start()
     {
+        // 🔹 오디오 소스 자동 생성
+        bgmSource = gameObject.AddComponent<AudioSource>();
+        sfxSource = gameObject.AddComponent<AudioSource>();
+
+        // 🔹 배경 음악 설정 및 재생
+        if (bgmClip != null)
+        {
+            bgmSource.clip = bgmClip;
+            bgmSource.loop = true;
+            bgmSource.Play();
+        }
+
         if (pressAnyKey != null)
             StartCoroutine(FadeInOut(pressAnyKey.GetComponent<Text>()));
 
@@ -26,11 +44,22 @@ public class LobbyManager : MonoBehaviour
     {
         if (Input.anyKeyDown) // 아무 키나 눌렀을 때
         {
-            LoadGameScene();
+            if (sfxSource != null && pressKeySound != null)
+            {
+                sfxSource.PlayOneShot(pressKeySound, 1.5f);
+                sfxSource.PlayOneShot(pressKeySound); // 효과음 재생
+            }
+            StartCoroutine(LoadGameSceneWithDelay());
         }
     }
 
-    // 게임 씬으로 이동
+    // 씬 전환 전 잠시 대기 (효과음이 끝날 시간을 고려)
+    private IEnumerator LoadGameSceneWithDelay()
+    {
+        yield return new WaitForSeconds(0.5f); // 효과음이 끝날 때까지 대기
+        LoadGameScene();
+    }
+
     private void LoadGameScene()
     {
         if (!string.IsNullOrEmpty(gameSceneName)) // 씬 이름이 설정되었는지 확인

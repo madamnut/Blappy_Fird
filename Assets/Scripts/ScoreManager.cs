@@ -7,6 +7,9 @@ public class ScoreManager : MonoBehaviour
     private int score = 0;
     public Text scoreText;
 
+    public AudioClip scoreSound; // 점수 획득 사운드 추가
+    private AudioSource audioSource;
+
     private void Awake()
     {
         if (Instance == null)
@@ -18,6 +21,10 @@ public class ScoreManager : MonoBehaviour
     private void Start()
     {
         UpdateScoreUI();
+
+        // 오디오 소스 설정
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
     }
 
     public int GetScore()
@@ -30,6 +37,12 @@ public class ScoreManager : MonoBehaviour
         score += amount;
         Debug.Log("현재 점수: " + score);
         UpdateScoreUI();
+
+        // 점수 획득 효과음 재생
+        if (scoreSound != null)
+        {
+            audioSource.PlayOneShot(scoreSound, 0.8f); // 볼륨 80%로 재생
+        }
     }
 
     private void UpdateScoreUI()

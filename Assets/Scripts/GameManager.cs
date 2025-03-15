@@ -6,7 +6,10 @@ public class GameManager : MonoBehaviour
     public bool IsGameRunning { get; private set; } = true;
     public float GameTime { get; private set; } = 0f;
     public GameObject player;
-    public GameObject obstaclePrefab; // 장애물 프리팹 (부모 객체)
+    public GameObject obstaclePrefab;
+
+    public AudioClip bgmClip;  // 인게임 BGM 오디오 클립 추가
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -14,6 +17,12 @@ public class GameManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+    }
+
+    private void Start()
+    {
+        // 기존 코드 유지
+        PlayBGM(); // BGM 실행
     }
 
     private void Update()
@@ -29,12 +38,14 @@ public class GameManager : MonoBehaviour
     {
         IsGameRunning = false;
         Debug.Log("게임 멈춤!");
+        StopBGM(); // 게임이 멈출 때 BGM도 정지
     }
 
     public void ResumeGame()
     {
         IsGameRunning = true;
         Debug.Log("게임 재개!");
+        PlayBGM(); // 다시 게임 시작 시 BGM 재생
     }
 
     private void CheckCollision()
@@ -42,7 +53,7 @@ public class GameManager : MonoBehaviour
         if (player == null || obstaclePrefab == null)
             return;
 
-        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle"); // 현재 씬의 모든 장애물 가져오기
+        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         Collider2D playerCollider = player.GetComponent<Collider2D>();
 
         if (playerCollider == null)
@@ -50,11 +61,10 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject obstacle in obstacles)
         {
-            Collider2D[] obstacleColliders = obstacle.GetComponentsInChildren<Collider2D>(); // 자식 오브젝트들의 Collider2D 가져오기
+            Collider2D[] obstacleColliders = obstacle.GetComponentsInChildren<Collider2D>();
 
             foreach (Collider2D obstacleCollider in obstacleColliders)
             {
-                // 실제 콜라이더의 형태를 기준으로 충돌 체크
                 if (playerCollider.IsTouching(obstacleCollider)) 
                 {
                     HandleCollision();
@@ -67,8 +77,6 @@ public class GameManager : MonoBehaviour
     public void HandleCollision()
     {
         StopGame();
-
-        // 게임 오버 UI 호출
         GameOverManager gameOverManager = FindObjectOfType<GameOverManager>();
         if (gameOverManager != null)
         {
@@ -76,4 +84,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 🔹 BGM 실행
+    private void PlayBGM()
+    {
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.loop = true;
+            audioSource.playOnAwake = false;
+            audioSource.volume = 1f;
+        }
+
+        if (bgmClip != null && !audioSource.isPlaying)
+        {
+            audioSource.clip = bgmClip;
+            audioSource.Play();
+        }
+    }
+
+    // 🔹 BGM 정지
+    private void StopBGM()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
 }

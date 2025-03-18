@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 3739922579124863463, guid: c32bf8803c067af4b9fabfab3b11675d, type: 3}
-  scrollSpeed: 4
+  scrollSpeed: 6
   spawnInterval: 1
   minY: -2.8
   maxY: 2.8
